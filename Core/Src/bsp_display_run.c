@@ -463,17 +463,11 @@ void RunPocess_Command_Handler(void)
 						switch(run_t.gFan){
 
                         case 0:
-							  
-                               
-							   if(run_t.slave_ptc_warning ==1 || run_t.slave_fan_warning ==1){
-									Display_Alternate_Slave_Fault_Item();
+							if(run_t.slave_ptc_warning ==1 || run_t.slave_fan_warning ==1){
+								Display_Alternate_Slave_Fault_Item();
 									
-									
-	                            
-							   }
-							   
-							
-                        break;
+							}
+						break;
 
                         case 1:
 

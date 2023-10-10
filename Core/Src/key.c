@@ -414,8 +414,8 @@ void Process_Key_Handler(uint8_t keylabel)
 void Set_Timing_Temperature_Number_Value(void)
 {
 
-    
-    static uint8_t set_temp_flag, counter_times;
+    static uint8_t temp;
+    static uint8_t set_temp_flag, counter_timesb,counter_times;
 	
 	//set timer timing value 
 	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING){
@@ -483,6 +483,7 @@ void Set_Timing_Temperature_Number_Value(void)
 		  else if(run_t.gTimer_set_temp_times > 14 && run_t.gTimer_set_temp_times < 29){
 		  	
 			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+			  
 
 		  }
 		  else{
@@ -502,6 +503,11 @@ void Set_Timing_Temperature_Number_Value(void)
 			  run_t.gTimer_temp_delay = 70; //at once shut down ptc  funciton
 		
 			  TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+
+              temp =  run_t.set_temperature_decade_value*10 + run_t.set_temperature_unit_value;
+			  SendData_Temp_Data(temp); //WT.EDIT 2023.10.10
+			  HAL_Delay(2);
+			  
 	       
 	       }
 	     }
