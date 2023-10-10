@@ -213,7 +213,7 @@ typedef struct __RUN{
    uint8_t set_timer_special_value;
    uint8_t gTimer_run_ico;
    uint8_t gTimer_fan_continue;
-   uint8_t works_temp_timing_flag;
+
  
  
    uint8_t gTimer_slave_fault_times ;

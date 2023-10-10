@@ -4,7 +4,7 @@
 #include "cmd_link.h"
 #include "led.h"
 #include "display.h"
-#include "single_mode.h"
+#include "bsp_display_run.h"
 #include "key.h"
 
 RUN_T run_t;

@@ -1,4 +1,4 @@
-#include "single_mode.h"
+#include "bsp_display_run.h"
 #include "run.h"
 #include "smg.h"
 #include "gpio.h"
@@ -115,9 +115,11 @@ static void Display_SmgTiming_Value(void)
 		    }
 
 		break;
-		}
+	   	}
+    
 
-	   
+    
+	
       if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.slave_fan_warning == 0 && run_t.slave_ptc_warning ==0){
 		   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
 			   timer_display_flag=0;
@@ -257,6 +259,8 @@ void RunPocess_Command_Handler(void)
 	  	    run_t.step_run_power_off_tag=0;
             run_t.gTimer_time_colon =0;
 	       run_t.set_temperature_decade_value=40;
+		     run_t.ptc_warning =0; 
+		    run_t.fan_warning =0;
 		   run_t.slave_ptc_warning =0; 
 		    run_t.slave_fan_warning =0;
            
@@ -518,11 +522,7 @@ void RunPocess_Command_Handler(void)
 				   run_t.gFan_RunContinue =0;
 
 				 }
-                 
-
-			 
-                
-				Breath_Led();
+                 Breath_Led();
 		 
 		
        }
@@ -639,8 +639,8 @@ static void Display_Works_Time_Fun(void)
 
      	}
        
-	       if(run_t.works_temp_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
-	          run_t.works_temp_timing_flag=0;
+	       if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
+	          works_timing_flag=0;
 			  run_t.timer_works_transform_flag=1;
 			 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 		  
@@ -767,7 +767,7 @@ static void WorksTime_DonotDisplay_Fun(void)
 		   if(run_t.works_dispTime_minutes> 59){ //1 hour
 		   run_t.works_dispTime_minutes=0;
 		   run_t.works_dispTime_hours++;
-		   if(run_t.works_dispTime_hours > 24){
+		   if(run_t.works_dispTime_hours > 99){ //100 hours
 		   run_t.works_dispTime_hours =0;
 		   }
 	       }
@@ -867,7 +867,7 @@ static void Display_Alternate_Slave_Fault_Item(void)
 		   }
 		   else if(run_t.gTimer_slave_fault_times > 59 && run_t.gTimer_slave_fault_times < 112 ){
 		   		alternate_flag++;
- 				Display_Slave_Error_Digital(0x10,0);
+ 				//Display_Slave_Error_Digital(0x10,0);
  				if(alternate_flag==2 ||alternate_flag>2 )alternate_flag=0;
 		   }
 		    else if(run_t.gTimer_slave_fault_times> 119){

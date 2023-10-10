@@ -4,7 +4,7 @@
 #include "smg.h"
 #include "cmd_link.h"
 #include "display.h"
-#include "single_mode.h"
+#include "bsp_display_run.h"
 #include "led.h"
 
 
