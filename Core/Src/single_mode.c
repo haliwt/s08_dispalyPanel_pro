@@ -28,7 +28,7 @@ static void WorksTime_DonotDisplay_Fun(void);
 static void Timer_Timing_Donot_Display(void);
 
 static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level);
-
+static void Display_Alternate_Slave_Fault_Item(void);
 
 
 void Smg_DisplayFan_Speed_Level_Init(void)
@@ -78,7 +78,6 @@ static void Display_SmgTiming_Value(void)
 			
 	      }
 		    
-        }
 	    break;
 
 		case 0: //NO_AI_MODE by timer timing  auto be changed AI_MODE
@@ -91,11 +90,19 @@ static void Display_SmgTiming_Value(void)
 			
              run_t.ai_model_be_changed_flag =  NO_AI_TO_AI_MODE;
 
-            SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On
+			 /******************************************************/
 
-             HAL_Delay(5);
+			  if(run_t.gDry == 0)
 
-              run_t.timer_timing_define_flag=timing_donot; 
+			     run_t.gDry = 1;
+
+                SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On --this is error code 2023.10.10
+
+                HAL_Delay(1);
+			  }
+
+		
+             run_t.timer_timing_define_flag=timing_donot; 
 
              run_t.ai_model_flag =AI_MODE; 
              run_t.gDry=1;
@@ -103,16 +110,15 @@ static void Display_SmgTiming_Value(void)
 			 run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
 			 run_t.timer_timing_define_ok=0xff; //WT.EDIT.2023.09.21 has a little bug.
 
-
+             run_t.timer_timing_define_flag=0xff;  //WT.EDIT.2023.10.10 has a little bug.
          
 		    }
 
 		break;
-
-	   	}
+		}
 
 	   
-       if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+      if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.slave_fan_warning == 0 && run_t.slave_ptc_warning ==0){
 		   if(timer_display_flag==1 ||  run_t.timer_works_transform_flag ==1){
 			   timer_display_flag=0;
 			   run_t.timer_works_transform_flag=0;
@@ -123,22 +129,22 @@ static void Display_SmgTiming_Value(void)
 		 
 	      
       }
-	  else{
+	  else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1 ){
 
-	     if(run_t.gTimer_error_digital < 60){//10ms * 60= 600
+	     if(run_t.gTimer_error_digital < 60){//10ms * 60= 600ms
 
 		        if(alternate_flag ==0){
 			   	
                      
 			     if(run_t.ptc_warning ==1){
                  
-					Display_Error_Digital(0x01,0);
+					Display_Host_Error_Digital(0x01,0);
 			     }
 				 else {
 			        if(run_t.fan_warning ==1){
 
 					  
-                      Display_Error_Digital(0x02,0);
+                      Display_Host_Error_Digital(0x02,0);
 
 			        }
 
@@ -151,16 +157,16 @@ static void Display_SmgTiming_Value(void)
 			      alternate_flag=2;
 				   if(run_t.ptc_warning ==1 && run_t.fan_warning ==1){
 
-					     Display_Error_Digital(0x02,0);
+					     Display_Host_Error_Digital(0x02,0);
 
 				   	}
 				    else  if(run_t.ptc_warning ==1 && run_t.fan_warning ==0){
                        
-					    Display_Error_Digital(0x01,0);
+					    Display_Host_Error_Digital(0x01,0);
 			        }
 					else  if(run_t.ptc_warning ==0 && run_t.fan_warning ==1){
                        
-					    Display_Error_Digital(0x02,0);
+					    Display_Host_Error_Digital(0x02,0);
 					    if(alternate_flag==2 ||alternate_flag>2 )alternate_flag=0;
 			        }
 
@@ -172,7 +178,7 @@ static void Display_SmgTiming_Value(void)
 		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital < 121 ){
 
                   alternate_flag++;
- 				Display_Error_Digital(0x10,1);
+ 				Display_Host_Error_Digital(0x10,1);
  				if( alternate_flag==2) alternate_flag=0;
 		   }
 		   else if(run_t.gTimer_error_digital > 119){
@@ -203,7 +209,7 @@ static void Display_SmgTiming_Value(void)
 
 	case timing_donot:
 		
-         Timer_Timing_Donot_Display();
+        Timer_Timing_Donot_Display();
 		
 	    Display_Works_Time_Fun();
     break;
@@ -251,6 +257,8 @@ void RunPocess_Command_Handler(void)
 	  	    run_t.step_run_power_off_tag=0;
             run_t.gTimer_time_colon =0;
 	       run_t.set_temperature_decade_value=40;
+		   run_t.slave_ptc_warning =0; 
+		    run_t.slave_fan_warning =0;
            
            switch(run_t.step_run_power_on_tag){
 
@@ -328,8 +336,8 @@ void RunPocess_Command_Handler(void)
 		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
             break;
         }
-		break;
 	  break;
+
 
 	  case UPDATE_DATA: //3
 
@@ -444,15 +452,46 @@ void RunPocess_Command_Handler(void)
 
                         break;
                     }
-                    step_state=0;
+                    step_state=6;
                     break;
+
+					case 6:  //display slave of machine fan and ptc fault .
+						switch(run_t.gFan){
+
+                        case 0:
+							  
+                               
+							   if(run_t.slave_ptc_warning ==1 || run_t.slave_fan_warning ==1){
+									Display_Alternate_Slave_Fault_Item();
+									
+									
+	                            
+							   }
+							   
+							
+                        break;
+
+                        case 1:
+
+                           display_fan_speed_value(run_t.gFan_level);
+                          
+
+                        break;
+						
+                    	}
+
+					 step_state=0;
+					
+				   break;
+
+				
 				   }
                 break;
                     
-                    case 4:
-                        run_t.gRunCommand_label= POWER_OFF_PROCESS;
-                        Power_Off_Fun();
-                    break;
+            case 4:
+                run_t.gRunCommand_label= POWER_OFF_PROCESS;
+                Power_Off_Fun();
+            break;
              }
 
 	
@@ -582,7 +621,7 @@ static void Display_Works_Time_Fun(void)
 {
      static uint8_t works_timing_flag,alternate_flag;
 
-	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+	 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0 && run_t.slave_fan_warning ==0 && run_t.slave_ptc_warning ==0){
      if(run_t.gTimes_time_seconds > 59 ){
             run_t.gTimes_time_seconds=0;
             works_timing_flag =1;
@@ -600,14 +639,14 @@ static void Display_Works_Time_Fun(void)
 
      	}
        
-	       if(works_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
-	          works_timing_flag=0;
+	       if(run_t.works_temp_timing_flag==1 || run_t.timer_works_transform_flag ==0 ){
+	          run_t.works_temp_timing_flag=0;
 			  run_t.timer_works_transform_flag=1;
 			 Display_GMT(run_t.works_dispTime_hours,run_t.works_dispTime_minutes);
 		  
 	        }
         }
-		else{
+		else if(run_t.ptc_warning ==1 || run_t.fan_warning ==1){
 
 		    if(run_t.gTimer_error_digital < 60){//10ms * 51= 510
 
@@ -617,13 +656,13 @@ static void Display_Works_Time_Fun(void)
                      
 			     if(run_t.ptc_warning ==1){
                  
-					Display_Error_Digital(0x01,0);
+					Display_Host_Error_Digital(0x01,0);
 			     }
 				 else {
 			        if(run_t.fan_warning ==1){
 
 					  
-                      Display_Error_Digital(0x02,0);
+                      Display_Host_Error_Digital(0x02,0);
 
 			        }
 
@@ -636,16 +675,16 @@ static void Display_Works_Time_Fun(void)
 			      alternate_flag=2;
 				   if(run_t.ptc_warning ==1 && run_t.fan_warning ==1){
 
-					     Display_Error_Digital(0x02,0);
+					     Display_Host_Error_Digital(0x02,0);
 
 				   	}
 				    else  if(run_t.ptc_warning ==1 && run_t.fan_warning ==0){
                        
-					    Display_Error_Digital(0x01,0);
+					    Display_Host_Error_Digital(0x01,0);
 			        }
 					else  if(run_t.ptc_warning ==0 && run_t.fan_warning ==1){
                        
-					    Display_Error_Digital(0x02,0);
+					    Display_Host_Error_Digital(0x02,0);
 			        }
 
 
@@ -655,7 +694,7 @@ static void Display_Works_Time_Fun(void)
 		   }
 		   else if(run_t.gTimer_error_digital > 59 && run_t.gTimer_error_digital  < 121 ){
 		   		alternate_flag++;
- 				Display_Error_Digital(0x10,1);
+ 				Display_Host_Error_Digital(0x10,1);
  				if(alternate_flag==2 ||alternate_flag>2 )alternate_flag=0;
 		   }
 		    else if(run_t.gTimer_error_digital > 119){
@@ -770,6 +809,72 @@ static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
     }
  
 
+}
+/****************************************************************
+ * 
+ * Function Name:
+ * Function :function of pointer 
+ * 
+ * 
+****************************************************************/
+static void Display_Alternate_Slave_Fault_Item(void)
+{
+   static uint8_t alternate_flag;
+
+	if(run_t.gTimer_slave_fault_times  < 60){//10ms * 51= 510
+
+		      
+               if(alternate_flag ==0){
+			   	  
+                     
+			     if(run_t.slave_ptc_warning ==1){
+                 
+					Display_Slave_Error_Digital(0x01,0);
+			     }
+				 else {
+			        if(run_t.slave_fan_warning ==1){
+
+					  
+                      Display_Slave_Error_Digital(0x02,0);
+
+			        }
+
+				 }
+			    
+
+               }
+			   else{
+
+			      alternate_flag=2;
+				   if(run_t.slave_ptc_warning ==1 && run_t.slave_fan_warning ==1){
+
+					     Display_Slave_Error_Digital(0x02,0);
+
+				   	}
+				    else  if(run_t.slave_ptc_warning ==1 && run_t.slave_fan_warning ==0){
+                       
+					    Display_Slave_Error_Digital(0x01,0);
+			        }
+					else  if(run_t.slave_ptc_warning ==0 && run_t.slave_fan_warning ==1){
+                       
+					    Display_Slave_Error_Digital(0x02,0);
+			        }
+
+
+			   }
+			   
+
+		   }
+		   else if(run_t.gTimer_slave_fault_times > 59 && run_t.gTimer_slave_fault_times < 112 ){
+		   		alternate_flag++;
+ 				Display_Slave_Error_Digital(0x10,0);
+ 				if(alternate_flag==2 ||alternate_flag>2 )alternate_flag=0;
+		   }
+		    else if(run_t.gTimer_slave_fault_times> 119){
+
+			  run_t.gTimer_slave_fault_times=0;
+
+			 }
 }
 /****************************************************************
  * 

@@ -63,13 +63,13 @@ void Display_GMT(uint8_t hours,uint8_t minutes)
 
 /********************************************************************************
 *
-*Functin Name: void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
+*Functin Name: void Display_Host_Error_Digital(uint8_t errnumbers,uint8_t sel)
 *Function : Timer of key be pressed handle
 *Input Ref:  error digital 
 *Return Ref: NO
 *
 ********************************************************************************/
-void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
+void Display_Host_Error_Digital(uint8_t errnumbers,uint8_t sel)
 { 
     static uint8_t m,q;
 	m = 0x0E;
@@ -85,6 +85,32 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 
 /********************************************************************************
 *
+*Functin Name:void Display_Slave_Error_Digital(uint8_t errnumbers,uint8_t sel)
+*Function : display slave of fault machine fan and ptc error.
+*Input Ref:  error digital 
+*Return Ref: NO
+*
+********************************************************************************/
+void Display_Slave_Error_Digital(uint8_t errnumbers,uint8_t sel)
+{ 
+    static uint8_t m,q;
+	
+	m = 0x0d;//m = 0x0E;
+	
+    run_t.hours_two_unit_bit= 0x0d;
+    
+	
+	run_t.minutes_one_decade_bit= errnumbers/10;
+
+	q=errnumbers%10;
+	//TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,sel) ; //timer is default 12 hours "12:00"
+	TM1639_Write_4Bit_Time(m,run_t.hours_two_unit_bit,run_t.minutes_one_decade_bit,q,sel) ; //timer is default 12 hours "12:00"
+
+}
+
+
+/********************************************************************************
+*
 *Functin Name: static void TimeColon_Smg_Blink_Fun(void)
 *Function : Timer of key be pressed handle
 *Input Ref:  NO
@@ -94,6 +120,7 @@ void Display_Error_Digital(uint8_t errnumbers,uint8_t sel)
 static void TimeColon_Smg_Blink_Fun(void)
 {
 	if(run_t.gTimer_colon < 2){
+		
 		  SmgBlink_Colon_Function(run_t.hours_two_unit_bit ,run_t.minutes_one_decade_bit,0);
 	   }
 	   else if(run_t.gTimer_colon >  1	&&	run_t.gTimer_colon < 3){

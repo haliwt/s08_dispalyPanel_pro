@@ -103,7 +103,7 @@ const unsigned char segNumber_High[]={
 		 seg_e+seg_g,					 // char "r"  0x0D
 		 seg_e+seg_f+seg_g,              // char "E"  0X0E
 		 seg_e+seg_f+seg_g,              // char "F"  0X0F
-         0                               // char "NLL"  0x16
+         0                               // char "NLL"  0x10
 
 
 

@@ -69,6 +69,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_Counter ++;
 		run_t.gTimes_time_seconds ++;
         run_t.gTimer_display_fan_level++;
+		run_t.gTimer_slave_fault_times ++;
+	
 
 		
 		

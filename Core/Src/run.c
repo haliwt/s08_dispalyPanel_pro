@@ -142,6 +142,17 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 		 break;
 
+		 
+		 case SLAVE_PTC_WARNING:
+			run_t.slave_ptc_warning =1;
+		 
+		 break;
+		 
+		 case SLAVE_FAN_WARNING :
+			run_t.slave_fan_warning =1;
+		 
+		 break;
+
 		 case FAN_REMOVE_WARNING:
 
 		  // run_t.fan_warning =0;
@@ -188,12 +199,8 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 			
 		 break;
 
-	
-	
-
-
-
-	   }
+		
+		}
 
 	  break;
 

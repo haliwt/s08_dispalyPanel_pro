@@ -21,6 +21,10 @@ typedef enum WIFI_STATE_T{
 	PTC_WARNING= 0xE1,
 	FAN_WARNING = 0xE2,
 
+	
+	 SLAVE_PTC_WARNING= 0xD1,
+	 SLAVE_FAN_WARNING= 0xD2,
+
 	FAN_REMOVE_WARNING = 0xF2
     
 
@@ -104,6 +108,8 @@ typedef struct __RUN{
 
    uint8_t  ptc_warning;
    uint8_t  fan_warning;
+   uint8_t  slave_ptc_warning;
+   uint8_t  slave_fan_warning;
 
 
    uint8_t  gFan;
@@ -207,9 +213,11 @@ typedef struct __RUN{
    uint8_t set_timer_special_value;
    uint8_t gTimer_run_ico;
    uint8_t gTimer_fan_continue;
+   uint8_t works_temp_timing_flag;
  
  
-   
+   uint8_t gTimer_slave_fault_times ;
+  
  
 
   volatile int8_t timer_dispTime_hours;
