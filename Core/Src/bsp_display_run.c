@@ -110,7 +110,7 @@ static void Display_SmgTiming_Value(void)
 			 run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
 			 run_t.timer_timing_define_ok=0xff; //WT.EDIT.2023.09.21 has a little bug.
 
-             run_t.timer_timing_define_flag=0xff;  //WT.EDIT.2023.10.10 has a little bug.
+            
          
 		    }
 
