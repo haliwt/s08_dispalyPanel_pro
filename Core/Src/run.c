@@ -30,14 +30,7 @@ void Decode_Handler(void)
    if(run_t.decodeFlag ==1){
    run_t.decodeFlag =0;
    run_t.process_run_guarantee_flag =1;
-   if(run_t.gPower_On ==RUN_POWER_OFF){
-        run_t.step_run_power_on_tag=0;
-        run_t.step_run_power_off_tag=1;
-   }
-   else{
-       run_t.step_run_power_on_tag=1;
-       run_t.step_run_power_off_tag=0;
-   }
+
    Receive_MainBoard_Data_Handler(run_t.rx_mb_data_tag);
 
 
@@ -105,20 +98,9 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
 	  case ANSWER_DATA:
           
-       if(parse_buf[5] == parse_buf[0]+parse_buf[1]+parse_buf[2]+parse_buf[3] +parse_buf[4]){
+      
 		 
-	  	if(run_t.gPower_On ==RUN_POWER_ON){
-            
-	  	   run_t.step_run_power_on_tag=1;
-           run_t.step_run_power_off_tag=0;
-        }
-		else{
-		  run_t.step_run_power_off_tag=1;
-             run_t.step_run_power_on_tag=0;
-        }
-        
-       }
-          
+	 
        
 
 	  cmd =0xff;
@@ -206,8 +188,8 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
    }
 
-
 }
+
 /**********************************************************************
 *
 *Functin Name: void Receive_ManiBoard_Cmd(uint8_t cmd)
@@ -228,14 +210,29 @@ void Power_On_Fun(void)
 		run_t.gBug =1;
 		run_t.ai_model_flag =AI_MODE;
 
+	 run_t.gPower_On=RUN_POWER_ON;
+
+	
+	run_t.gTimer_time_colon =0;
+	run_t.set_temperature_decade_value=40;
+
+	
+	run_t.ptc_warning =0; 
+	run_t.fan_warning =0;
+	run_t.slave_ptc_warning =0; 
+	run_t.slave_fan_warning =0;
+
+
+	run_t.power_on_send_to_mb_times=36;
+	run_t.timer_timing_define_ok=0;
+
   
-    run_t.gPower_On=RUN_POWER_ON;
+   
 
     run_t.time_led_flag=1;
 	Power_ON_Led();
 
-	run_t.fan_warning=0;
-	run_t.ptc_warning=0;
+
 
 	run_t.works_dispTime_hours=0;
 	run_t.works_dispTime_minutes=0;

@@ -114,8 +114,8 @@ typedef struct __RUN{
 
    uint8_t  gFan;
    uint8_t  power_on_send_to_mb_times;
-   uint8_t step_run_power_on_tag;
-   uint8_t step_run_power_off_tag;
+ 
+
    uint8_t power_off_send_to_mb_times;
   
    //key ref
@@ -171,6 +171,8 @@ typedef struct __RUN{
   //usart ref
     uint8_t process_run_guarantee_flag;
     uint8_t timer_works_transform_flag;
+
+	
 	
     
  
@@ -215,7 +217,7 @@ typedef struct __RUN{
    uint8_t gTimer_fan_continue;
 
  
- 
+
    uint8_t gTimer_slave_fault_times ;
   
  

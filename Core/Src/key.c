@@ -151,6 +151,7 @@ uint8_t KEY_Scan(void)
 void Process_Key_Handler(uint8_t keylabel)
 {
    static uint8_t power_on_off_flag;
+   uint8_t power_adjust_on,power_adjust_off;
 
   
 
@@ -160,19 +161,29 @@ void Process_Key_Handler(uint8_t keylabel)
 	 
            power_on_off_flag = power_on_off_flag ^ 0x01;
 	       if(power_on_off_flag ==1){
- 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
- 		
-            run_t.gRunCommand_label =RUN_POWER_ON;
+
+		    power_adjust_on = Power_ReadParam_OnOff(1);
+
+		    if(power_adjust_on ==1){
+		   	
+	 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
+	 		
+	            run_t.gRunCommand_label =RUN_POWER_ON;
+
+		    }
            
               
 		 }
 		 else{
 
-		    SendData_PowerOff(0);
-            HAL_Delay(2);
-		    run_t.gRunCommand_label =RUN_POWER_OFF;
-	        run_t.power_on_recoder_times++ ;
-		   }
+		     power_adjust_off = Power_ReadParam_OnOff(0);
+
+		    if(power_adjust_off ==1){
+	        
+			    run_t.gRunCommand_label =RUN_POWER_OFF;
+		        run_t.power_on_recoder_times++ ;
+		    }
+		 }
 	  	 
 	   run_t.keyvalue = 0xff;
 
@@ -539,13 +550,13 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 				
                 run_t.gRunCommand_label = RUN_POWER_ON;
                 run_t.display_timer_timing_flag =0;
-				SendData_PowerOff(1);
+				SendData_Power_OnOff(1);
 		   }
            else{
 		   	run_t.gRunCommand_label = RUN_POWER_OFF;
             run_t.display_timer_timing_flag =4;
 		  
-			SendData_PowerOff(0);
+			SendData_Power_OnOff(0);
 			Power_Off_Fun();
 		     
 		   }

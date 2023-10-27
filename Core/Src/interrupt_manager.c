@@ -1,8 +1,5 @@
 #include "interrupt_manager.h"
-#include "run.h"
-#include "usart.h"
-#include "cmd_link.h"
-#include "bsp_display_run.h"
+#include "bsp.h"
 
 //void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 //{
@@ -52,6 +49,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_display_dht11++;
 		run_t.gTimer_power_key_pressed++;
 		run_t.gTimer_fan_continue++;
+		usart_t.gTimer_receive_mb_times++;
 		//--------------//
 		
 		run_t.gTimer_key_timing++;

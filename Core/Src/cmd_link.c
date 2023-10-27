@@ -21,7 +21,7 @@ uint8_t parse_buf[MAX_BUFFER_BUF];
 *Return Ref:NO
 *
 ****************************************************************************************************/
-void SendData_PowerOff(uint8_t index)
+void SendData_Power_OnOff(uint8_t index)
 {
 	
    //crc=0x55;
