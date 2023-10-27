@@ -1,11 +1,5 @@
 #include "key.h"
-#include "gpio.h"
-#include "run.h"
-#include "smg.h"
-#include "cmd_link.h"
-#include "display.h"
-#include "bsp_display_run.h"
-#include "led.h"
+#include "bsp.h"
 
 
 

@@ -161,7 +161,7 @@ typedef struct __RUN{
 	
    uint8_t gReal_humtemp[2];
    uint8_t rx_mb_data_tag;
-   uint8_t rx_mb_answer_tag ;
+ 
 
    //timer ref
    uint8_t timer_timing_define_ok ;

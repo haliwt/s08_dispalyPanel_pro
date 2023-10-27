@@ -1,5 +1,6 @@
 #include "bsp_link_mb.h"
-#include "bsp.h"
+#include "bsp.h"
+
 #define BSP_TIMEOUT		1		/* �������ʱʱ��, ��λms */
 #define NUM			1			/* ѭ�����ʹ��� */
 

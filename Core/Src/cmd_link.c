@@ -1,11 +1,9 @@
 #include "cmd_link.h"
-#include "usart.h"
-#include "gpio.h"
-#include "run.h"
-#include "display.h"
-#include "led.h"
+#include "bsp.h"
 
 volatile static uint8_t transOngoingFlag; //interrupt Transmit flag bit , 1---stop,0--run
+static void MB_Answer_Signal(uint8_t data);
+
 uint8_t outputBuf[8];
 static uint8_t transferSize;
 static uint8_t state;
@@ -209,54 +207,43 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		switch(state)
 		{
 		case 0:  //#0
-			if(inputBuf[0]=='M' || inputBuf[0]==0x55)  {//hex :4D - "M" -fixed mainboard
-                if(inputBuf[0]==0x55){
+			if(inputBuf[0]=='M') {//hex :4D - "M" -fixed mainboard
+               
+			   state=1;
 
-                    parse_buf[0] =inputBuf[0];
-					run_t.rx_mb_answer_tag =1;
-
-                }
-
-				state=1; //=1
-
-		    }
-			else{
-			state=0; //=1
-
-			run_t.rx_mb_answer_tag=0;
-
-			}
+             }
 			break;
 		case 1: //#1
-			if(inputBuf[0]=='A' ||inputBuf[0]==0 || inputBuf[0]==0x01) //hex : 41 -'A'  -fixed master
+			if(inputBuf[0]=='A') //hex : 41 -'A'  -fixed master
 			{
-				if(inputBuf[0]!='A')parse_buf[1] =inputBuf[0];
-                
+				
 				state=2; 
 			}
 			else{
 				
 				state=0;
-				run_t.rx_mb_answer_tag=0;
-
-
-				}
+			}
 			break;
 		case 2://#2
-			if(inputBuf[0]=='D' || inputBuf[0]==0x1 )
+			if(inputBuf[0]=='D')
 			 {
 				
-				if(inputBuf[0]=='D')run_t.rx_mb_data_tag=PANEL_DATA; //receive data is single data
-                else parse_buf[2] =inputBuf[0];
-			    state=3;
+				run_t.rx_mb_data_tag=PANEL_DATA; //receive data is single data
+                state=3;
 			}
             else if(inputBuf[0]=='E'){
                 run_t.rx_mb_data_tag=ORDER_DATA;
                 state=3;
             }
+			else if(inputBuf[0]=='A'){
+
+			     run_t.rx_mb_data_tag=ANSWER_DATA;
+				 state=3;
+
+			}
 			else{
 				state=0;
-				run_t.rx_mb_answer_tag=0;
+				
 
 
 				}
@@ -273,17 +260,26 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
              }
 			else if(run_t.rx_mb_data_tag==ORDER_DATA){
 
-			   outputBuf[0]=  inputBuf[0];  
+			    outputBuf[0]=  inputBuf[0];  
 				state=0;
 				run_t.decodeFlag=1;
-				run_t.rx_mb_answer_tag=0;
+	
+
+
+			}
+			else if(run_t.rx_mb_data_tag==ANSWER_DATA){
+                 
+			  outputBuf[0]=  inputBuf[0]; 
+			  MB_Answer_Signal(outputBuf[0]);
+			  state=0;
+			  run_t.decodeFlag=0;
 
 
 			}
             else {
 
-				parse_buf[3] =inputBuf[0];
-				 state = 4; 
+				state = 0; 
+				run_t.decodeFlag=0;
             }
 	    break;
         
@@ -294,7 +290,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			
 		     state=0;
 		     run_t.decodeFlag=1;
-			 run_t.rx_mb_answer_tag=0;
+		
               
           }
          else {
@@ -328,6 +324,28 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
 	}
 }
+
+static void MB_Answer_Signal(uint8_t data)
+{
+   switch(data){
+
+    case 0x51: //power on
+       usart_t.response_power_on =0;
+    break;
+
+    case 0x50: //power off
+      usart_t.response_power_off =1;
+	break;
+
+
+    default:
+    break;
+
+   }
+
+
+}
+
 void USART1_Cmd_Error_Handler(void)
 {
    uint32_t temp;
