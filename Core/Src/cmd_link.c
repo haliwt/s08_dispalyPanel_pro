@@ -330,11 +330,13 @@ static void MB_Answer_Signal(uint8_t data)
    switch(data){
 
     case 0x51: //power on
-       usart_t.response_power_on =0;
+       usart_t.response_power_on =1;
+      usart_t.response_power_off =0;
     break;
 
     case 0x50: //power off
       usart_t.response_power_off =1;
+	   usart_t.response_power_on =0;
 	break;
 
 

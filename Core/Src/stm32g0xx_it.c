@@ -194,7 +194,16 @@ void EXTI4_15_IRQHandler(void)
 void EXTI0_1_IRQHandler(void)
 {
    HAL_GPIO_EXTI_IRQHandler(FAN_KEY_Pin);
+   HAL_GPIO_EXTI_IRQHandler(PLASMA_KEY_Pin);
  
    //run_t.keyvalue = FAN_KEY_ID;
 }
+
+void EXTI2_3_IRQHandler(void)
+{
+   HAL_GPIO_EXTI_IRQHandler(DRY_KEY_Pin);
+ 
+   //run_t.keyvalue = FAN_KEY_ID;
+}
+
 /* USER CODE END 1 */

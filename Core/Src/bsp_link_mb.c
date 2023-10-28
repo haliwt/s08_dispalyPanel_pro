@@ -19,9 +19,7 @@ uint8_t ADD_NUM ;
 void bsp_Idle(void)
 {
 
-
-
-
+  Decode_Handler();
 
 }
 
@@ -55,11 +53,11 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 			if (reg == 1 )
 			{
                if(usart_t.response_power_on ==1)
-				break;		/* ���յ�Ӧ�� */
+				return 1;		/* ���յ�Ӧ�� */
 			}
 			else{
 				if(usart_t.response_power_off ==1)
-				break;		/* ���յ�Ӧ�� */
+			    return 1;	/* ���յ�Ӧ�� */
 
 			}
 		}
@@ -67,7 +65,7 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 		if (reg == 1 )
 		{
            if(usart_t.response_power_on ==1)
-			break;		/* ���յ�Ӧ�� */
+			return 1;		/* ���յ�Ӧ�� */
 		   else{
 		   	  if(j==0){
 			  	j++;
@@ -81,7 +79,7 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 		}
 		else{
 			if(usart_t.response_power_off ==1)
-			break;		/* ���յ�Ӧ�� */
+			return 1;		/* ���յ�Ӧ�� */
 			else{
 				if(j==0){
 			  	j++;

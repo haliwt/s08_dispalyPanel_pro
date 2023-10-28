@@ -211,6 +211,9 @@ void Power_On_Fun(void)
 		run_t.ai_model_flag =AI_MODE;
 
 	 run_t.gPower_On=RUN_POWER_ON;
+	 Power_ON_Led();
+	
+	SMG_POWER_ON(); //WT.EDIT 2023.03.02
 
 	
 	run_t.gTimer_time_colon =0;
@@ -230,7 +233,7 @@ void Power_On_Fun(void)
    
 
     run_t.time_led_flag=1;
-	Power_ON_Led();
+	
 
 
 
@@ -250,7 +253,6 @@ void Power_On_Fun(void)
 	  minutes_one = 0;
       minutes_two = 0;
 	  
-	   SMG_POWER_ON(); //WT.EDIT 2023.03.02
       
 
 

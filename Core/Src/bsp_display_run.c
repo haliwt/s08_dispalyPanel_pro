@@ -36,6 +36,9 @@ void Smg_DisplayFan_Speed_Level_Init(void)
       Smg_DisplayFan_Leve(Smg_DisplayFan_Level_Value_Fun);
 
 }
+
+uint8_t power_adjust_on, power_adjust_off;
+
 /******************************************************************************
 *
 *Function Name:static void Setup_Timer_Times(void)
@@ -201,8 +204,7 @@ static void Display_SmgTiming_Value(void)
 	case timing_power_off:
         SendData_Power_OnOff(0);
 		HAL_Delay(5);
-		
-	  run_t.power_on_recoder_times++; //this is data must be change if not don't "breath led"
+	
 	  run_t.gRunCommand_label = RUN_POWER_OFF;//POWER_OFF_PROCESS; //POWER_OFF_PROCESS ;
 	  run_t.timer_timing_define_flag = 0xff;
 
@@ -256,28 +258,37 @@ void RunPocess_Command_Handler(void)
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
-	  	    
-			Power_On_Fun();
-			run_t.gRunCommand_label= UPDATE_DATA;
 
-          
+            power_adjust_on = Power_ReadParam_OnOff(1);
 
-         
-	  break;
+		    if(power_adjust_on ==1){
+		   	    power_adjust_on =0;
+	 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
+	 		
+	          	Power_On_Fun();
+			    run_t.gRunCommand_label= UPDATE_DATA;
+
+		    }
+           
+              
+	break;
 
 	  case RUN_POWER_OFF://2
-	  	
-		
 
-		
+	       power_adjust_off = Power_ReadParam_OnOff(0);
 
-		    run_t.ptc_warning =0;
+		    if(power_adjust_off ==1){
+	          power_adjust_off=0;
+		   
+		   run_t.ptc_warning =0;
 		    run_t.fan_warning =0;
 			
             power_off_set_flag=0;
 		   
 		    Power_Off_Fun();
             run_t.gRunCommand_label =POWER_OFF_PROCESS;
+
+         }
             
         
 	  break;
@@ -437,7 +448,7 @@ void RunPocess_Command_Handler(void)
 
 	  case POWER_OFF_PROCESS://4
 
-	   if(run_t.gPower_On ==RUN_POWER_OFF && POWER_KEY_VALUE()  ==KEY_UP ){
+	   if(run_t.gPower_On ==RUN_POWER_OFF && run_t.gRunCommand_label ==POWER_OFF_PROCESS){
 	   	     if(power_off_set_flag==0){
 					power_off_set_flag++;
                    Power_Off_Fun();
