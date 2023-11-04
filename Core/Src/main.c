@@ -110,29 +110,29 @@ int main(void)
      switch(run_t.power_times){
 
           case 0:
-		        HAL_Delay(2000);
-				run_t.gPower_On=RUN_POWER_OFF;
-				run_t.gRunCommand_label =POWER_OFF_PROCESS;
-				
-				run_t.power_times=1;
-				run_t.gTimer_fan_continue =0;
-                run_t.first_power_on_times=1;
+	        HAL_Delay(2000);
+			run_t.gPower_On=RUN_POWER_OFF;
+			run_t.gRunCommand_label =POWER_OFF_PROCESS;
+			
+			run_t.power_times=1;
+			run_t.gTimer_fan_continue =0;
+            run_t.first_power_on_times=1;
 
 	      break;
 
 		  case 1:
 		  	       
-             Decode_Handler();
-            if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP\
+	         Decode_Handler();
+	        if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP\
 				   && PLASMA_KEY_VALUE() ==KEY_UP && DRY_KEY_VALUE() ==KEY_UP){
-              //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
-              run_t.keyvalue= KEY_Normal_Scan(0);
-             }
-              Key_TheSecond_Scan();
-              Process_Key_Handler(run_t.keyvalue);
+	          //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
+	          run_t.keyvalue= KEY_Normal_Scan(0);
+	         }
+	          Key_TheSecond_Scan();
+	          Process_Key_Handler(run_t.keyvalue);
 			 
-              RunPocess_Command_Handler();
-              USART1_Cmd_Error_Handler();
+	          RunPocess_Command_Handler();
+	          USART1_Cmd_Error_Handler();
         break;
   
 
