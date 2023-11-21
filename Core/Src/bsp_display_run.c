@@ -1,11 +1,5 @@
 #include "bsp_display_run.h"
-#include "run.h"
-#include "smg.h"
-#include "gpio.h"
-#include "cmd_link.h"
-#include "led.h"
-#include "key.h"
-#include "display.h"
+#include "bsp.h"
 
 
 
@@ -27,15 +21,10 @@ static void Display_Works_Time_Fun(void);
 static void WorksTime_DonotDisplay_Fun(void);
 static void Timer_Timing_Donot_Display(void);
 
-static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level);
+
 static void Display_Alternate_Slave_Fault_Item(void);
 
 
-void Smg_DisplayFan_Speed_Level_Init(void)
-{
-      Smg_DisplayFan_Leve(Smg_DisplayFan_Level_Value_Fun);
-
-}
 
 uint8_t power_adjust_on, power_adjust_off;
 
@@ -399,21 +388,8 @@ void RunPocess_Command_Handler(void)
 					power_off_set_flag++;
                    Power_Off_Fun();
 				
-	   	      }
-
-			  if(run_t.first_power_on_times==1)run_t.gTimer_fan_continue =0;
-            
-			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1 && run_t.fan_warning==0){
-                   
-					LED_BUG_ON() ;
-				 }
-				 else if(run_t.gTimer_fan_continue > 59){
-                    run_t.gTimer_fan_continue =67;
-				   LED_BUG_OFF() ;
-				   run_t.gFan_RunContinue =0;
-
-				 }
-                 Breath_Led();
+	   	   }
+					Breath_Led();
 		 
 		
        }

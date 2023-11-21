@@ -11,8 +11,8 @@ volatile uint32_t led_k,led_i;
 void (*panel_led_fun)(void);
 
 
-static void DRY_LED_OnOff(uint8_t sel);
-static void PLASMA_LED_OnOff(uint8_t sel);
+
+
 
 static void TIME_LED_OnOff(uint8_t sel);
 
@@ -28,7 +28,7 @@ static void Delay(int16_t count);
 *
 *
 ************************************************************/
-static void DRY_LED_OnOff(uint8_t sel)
+void DRY_LED_OnOff(uint8_t sel)
 {
    if(sel==1){
 	 LED_DRY_ON();
@@ -37,7 +37,8 @@ static void DRY_LED_OnOff(uint8_t sel)
    	LED_DRY_OFF();
 
 }
-static void PLASMA_LED_OnOff(uint8_t sel)
+
+void PLASMA_LED_OnOff(uint8_t sel)
 {
 	if(sel==1){
 		LED_PLASMA_ON();

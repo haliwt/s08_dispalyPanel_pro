@@ -96,7 +96,7 @@ int main(void)
      UART_Start_Receive_IT(&huart1,inputBuf,1);
     __HAL_UART_ENABLE_IT(&huart1,UART_IT_ERR);
 
-   Smg_DisplayFan_Speed_Level_Init();
+ 
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -115,7 +115,7 @@ int main(void)
 			run_t.gRunCommand_label =POWER_OFF_PROCESS;
 			
 			run_t.power_times=1;
-			run_t.gTimer_fan_continue =0;
+		
             run_t.first_power_on_times=1;
 
 	      break;

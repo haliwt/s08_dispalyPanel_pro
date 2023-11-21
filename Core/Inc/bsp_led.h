@@ -22,8 +22,8 @@
 #define LED_PLASMA_ON()				HAL_GPIO_WritePin(PLASMA_LED_EN_GPIO_Port, PLASMA_LED_EN_Pin,GPIO_PIN_SET)
 #define LED_PLASMA_OFF()            HAL_GPIO_WritePin(PLASMA_LED_EN_GPIO_Port, PLASMA_LED_EN_Pin,GPIO_PIN_RESET)
 
-#define LED_BUG_ON()  				HAL_GPIO_WritePin(BUG_LED_EN_GPIO_Port, FAN_LED_EN_Pin,GPIO_PIN_SET)
-#define LED_BUG_OFF()				HAL_GPIO_WritePin(BUG_LED_EN_GPIO_Port, FAN_LED_EN_Pin,GPIO_PIN_RESET)
+#define LED_BUG_ON()  				HAL_GPIO_WritePin(BUG_LED_EN_GPIO_Port, BUG_LED_EN_Pin,GPIO_PIN_SET)
+#define LED_BUG_OFF()					HAL_GPIO_WritePin(BUG_LED_EN_GPIO_Port, BUG_LED_EN_Pin,GPIO_PIN_RESET)
 
 
 //control SMG supply power 
@@ -54,6 +54,8 @@ void Power_Off_Led_Off(void);
 
 
 void Power_ON_Led(void);
+void DRY_LED_OnOff(uint8_t sel);
+void PLASMA_LED_OnOff(uint8_t sel);
 
 
 

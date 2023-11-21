@@ -245,9 +245,9 @@ void Process_Key_Handler(uint8_t keylabel)
 
 					}
                 
-                run_t.keyvalue = 0xFF;
+           run_t.keyvalue = 0xFF;
 			    keylabel=0xff;
-				return;
+			
 			break;
 
 			case 1://set timer timing numbers 
@@ -292,10 +292,10 @@ void Process_Key_Handler(uint8_t keylabel)
 					
 		    	run_t.gTimer_Counter=0;
 
-                run_t.keyvalue = 0xFF;
+        run_t.keyvalue = 0xFF;
 				keylabel=0xff;
 				//run_t.input_timer_timing_numbers_flag =0;
-				return;
+			
 
 			break;
 
@@ -356,7 +356,7 @@ void Set_Timing_Temperature_Number_Value(void)
 {
 
     static uint8_t temp;
-    static uint8_t set_temp_flag, counter_timesb,counter_times;
+    static uint8_t set_temp_flag,counter_times;
 	
 	//set timer timing value 
 	if(run_t.temp_set_timer_timing_flag == TIMER_TIMING){
@@ -466,7 +466,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
    volatile static  uint8_t set_up_temperature_value;
   switch(GPIO_Pin){
 
-     HAL_Delay(20);
      case POWER_KEY_Pin:
 
 	  

@@ -22,7 +22,7 @@ extern void (*display_fan_speed_value)(uint8_t fan_level);
 void Scan_KeyMode(void);
 void Single_RunCmd(void);
 
-void Smg_DisplayFan_Speed_Level_Init(void);
+
 
 void RunReference_Fun(void);
 

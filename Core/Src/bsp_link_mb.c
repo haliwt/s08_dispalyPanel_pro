@@ -60,24 +60,24 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 
 			}
 		}
-	}
+	
 		
 	if (reg == 1 )
 		{
-           if(usart_t.response_power_on ==1)
-			return 1;		/* ���յ�Ӧ�� */
-		   else{
+      if(usart_t.response_power_on ==1)
+			    return 1;		/* ���յ�Ӧ�� */
+		  else{
 		   	  if(j==0){
-			  	j++;
+			  	  j++;
 		      	ADD_NUM++;
 
-		   	  }
-			  else 
-			  	
-           }
+		   	   }
+					 else 
+						 return 0;
+			}
+			   
 	}
-	
-   else{
+	else{
 			if(usart_t.response_power_off ==1)
 			return 1;		/* ���յ�Ӧ�� */
 			else{
@@ -86,14 +86,14 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 		      ADD_NUM++;
 
 		   	  }
-			  else 
-			  	break;
+			    else 
+						return 0;
 
 			}
 
 		}
-	}
 	
+	}
 	if (reg == 1 )
 	{
        if(usart_t.response_power_on ==1)

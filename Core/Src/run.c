@@ -2,10 +2,10 @@
 #include "smg.h"
 #include "gpio.h"
 #include "cmd_link.h"
-#include "led.h"
+#include "bsp_led.h"
 #include "display.h"
 #include "bsp_display_run.h"
-#include "key.h"
+#include "bsp_key.h"
 
 RUN_T run_t;
 
