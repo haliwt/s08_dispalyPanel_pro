@@ -29,24 +29,18 @@ void Decode_Handler(void)
 {
    if(run_t.decodeFlag ==1){
    run_t.decodeFlag =0;
-   run_t.process_run_guarantee_flag =1;
-
    Receive_MainBoard_Data_Handler(run_t.rx_mb_data_tag);
-
-
    }
   
 }
 
-
-
 /**********************************************************************
-*
-*Functin Name: void Display_DHT11_Value(void)
-*Function : Timer of key be pressed handle
-*Input Ref:  key of value
-*Return Ref: NO
-*
+	*
+	*Functin Name: void Display_DHT11_Value(void)
+	*Function : Timer of key be pressed handle
+	*Input Ref:  key of value
+	*Return Ref: NO
+	*
 **********************************************************************/
 void Power_Off(void)
 {
@@ -56,7 +50,7 @@ void Power_Off(void)
             SMG_POWER_OFF()	;
 			run_t.gPlasma=0;
 			run_t.gDry=0;
-			run_t.gFan =0;
+		
 			
 		}
 	}
@@ -207,7 +201,7 @@ void Power_On_Fun(void)
 	
 		run_t.gPlasma=1;
 		run_t.gDry =1;
-		run_t.gBug =1;
+		run_t.gUltrasonic =1;
 		run_t.ai_model_flag =AI_MODE;
 
 	 run_t.gPower_On=RUN_POWER_ON;
@@ -279,7 +273,7 @@ void Power_Off_Fun(void)
  
 		run_t.gPlasma=0;
 		run_t.gDry =0;
-		run_t.gBug =0;
+		run_t.gUltrasonic =0;
 		
         run_t.gPower_On =RUN_POWER_OFF;
 		run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 

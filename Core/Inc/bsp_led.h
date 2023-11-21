@@ -1,5 +1,5 @@
-#ifndef __LED_H_
-#define __LED_H_
+#ifndef __BSP_LED_H_
+#define __BSP_LED_H_
 #include "main.h"
 
 
@@ -22,8 +22,8 @@
 #define LED_PLASMA_ON()				HAL_GPIO_WritePin(PLASMA_LED_EN_GPIO_Port, PLASMA_LED_EN_Pin,GPIO_PIN_SET)
 #define LED_PLASMA_OFF()            HAL_GPIO_WritePin(PLASMA_LED_EN_GPIO_Port, PLASMA_LED_EN_Pin,GPIO_PIN_RESET)
 
-#define LED_FAN_ON()  				HAL_GPIO_WritePin(FAN_LED_EN_GPIO_Port, FAN_LED_EN_Pin,GPIO_PIN_SET)
-#define LED_FAN_OFF()				HAL_GPIO_WritePin(FAN_LED_EN_GPIO_Port, FAN_LED_EN_Pin,GPIO_PIN_RESET)
+#define LED_BUG_ON()  				HAL_GPIO_WritePin(BUG_LED_EN_GPIO_Port, FAN_LED_EN_Pin,GPIO_PIN_SET)
+#define LED_BUG_OFF()				HAL_GPIO_WritePin(BUG_LED_EN_GPIO_Port, FAN_LED_EN_Pin,GPIO_PIN_RESET)
 
 
 //control SMG supply power 

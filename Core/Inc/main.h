@@ -74,7 +74,7 @@ void Error_Handler(void);
 #define POWER_KEY_Pin 					        GPIO_PIN_7 //D3 ->
 #define POWER_KEY_GPIO_Port 			      	GPIOC
 
-#define FAN_KEY_Pin 					        GPIO_PIN_0
+#define BUG_KEY_Pin 					        GPIO_PIN_0
 #define FAN_KEY_GPIO_Port 				        GPIOB
 
 #define PLASMA_KEY_Pin 					        GPIO_PIN_1
@@ -111,8 +111,8 @@ void Error_Handler(void);
 #define TIME_LED_EN_Pin 					GPIO_PIN_14
 #define TIME_LED_EN_GPIO_Port 				GPIOB
 
-#define FAN_LED_EN_Pin 						GPIO_PIN_15
-#define FAN_LED_EN_GPIO_Port 				GPIOB
+#define BUG_LED_EN_Pin						GPIO_PIN_15
+#define BUG_LED_EN_GPIO_Port 				GPIOB
 
 #define PLASMA_LED_EN_Pin 					GPIO_PIN_8
 #define PLASMA_LED_EN_GPIO_Port 			GPIOA

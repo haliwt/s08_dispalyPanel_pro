@@ -1,5 +1,5 @@
-#ifndef __KEY_H_
-#define __KEY_H_
+#ifndef __BSP_KEY_H_
+#define __BSP_KEY_H_
 #include "main.h"
 
 
@@ -82,22 +82,19 @@ typedef enum{
 
 	 PLASMA_ON = 0x20,
 	 PLASMA_OFF = 0x21,
-	 
      PLASM_ON_NO_BUZZER = 0xA0,
      PLASM_OFF_NO_BUZZER = 0xA1,
 
-	 
-     BUG_ON =0x10,
-	 BUG_OFF = 0x11,
+     
 
-	 BUG_ON_NO_BUZZER = 0x50,
-	 BUG_OFF_NO_BUZZER = 0x51,
+	 ULTRASONIC_ON = 0X10,//FAN_LEVEL_MIN =0x10,
+	 ULTRASONIC_OFF = 0X11,//FAN_LEVEL_MAX = 0x11,
 	 
-	 //FAN_LEVEL_MIN =0x10,
-	 //FAN_LEVEL_MAX = 0x11,
+	 ULTRASONIC_ON_NO_BUZZER = 0x12,
+	 ULTRASONIC_OFF_NO_BUZZER = 0x13,
 	 
 
-      AI_MODE_ON = 0x30,   //EDIT 2023.09.13 new Add
+     AI_MODE_ON = 0x30,   //EDIT 2023.09.13 new Add
      AI_MODE_OFF =0x31
 
 }works_t;

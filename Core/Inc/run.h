@@ -100,10 +100,10 @@ typedef struct __RUN{
    
    uint8_t  gTimer_Cmd;
    uint8_t  gPlasma;
-   uint8_t  gUltrasonic;
+   uint8_t  gUltrasonic; //gBut
  
    uint8_t  gDry;
-   uint8_t  gBug;
+ 
 
 
    uint8_t  ptc_warning;
@@ -112,7 +112,7 @@ typedef struct __RUN{
    uint8_t  slave_fan_warning;
 
 
-   uint8_t  gFan;
+ 
    uint8_t  power_on_send_to_mb_times;
  
 
@@ -123,11 +123,11 @@ typedef struct __RUN{
    uint8_t gTimer_mode_key_start_counter;
    uint8_t gTimer_mode_key_counter;
    //fan ref
-   uint8_t gFan_level;
-   uint8_t gTimer_display_fan_level;
-   uint8_t fan_key_max;
-   uint8_t fan_key_min;
-   uint8_t fan_stop_flag;
+  
+  
+
+ 
+  
    uint8_t ai_model_be_changed_flag;
 
    //dry ref 
@@ -169,7 +169,7 @@ typedef struct __RUN{
   // uint8_t input_timer_timing_numbers_flag;
 
   //usart ref
-    uint8_t process_run_guarantee_flag;
+
     uint8_t timer_works_transform_flag;
 
 	

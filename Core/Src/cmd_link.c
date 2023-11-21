@@ -323,6 +323,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
        // __HAL_UART_CLEAR_OREFLAG(&huart1);
 		HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
 	}
+	/* 清除中断标志 */
+	SET_BIT(huart->ICR, UART_CLEAR_PEF);   //* @arg UART_CLEAR_PEF: Parity Error Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_FEF);	  //* @arg UART_CLEAR_FEF: Framing Error Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_NEF);	  //* @arg UART_CLEAR_NEF: Noise detected Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_OREF);//   * @arg UART_CLEAR_OREF: OverRun Error Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_IDLEF);// * @arg UART_CLEAR_IDLEF: IDLE line detected Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_TCF);//  * @arg UART_CLEAR_TCF: Transmission Complete Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_LBDF);//  * @arg UART_CLEAR_LBDF: LIN Break Detection Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_CTSF);//  * @arg UART_CLEAR_CTSF: CTS Interrupt Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_CMF);//  * @arg UART_CLEAR_CMF: Character Match Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_RTOF );//  * @arg UART_CLEAR_RTOF: Receiver Time Out Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_WUF);//	* @arg.UART_CLEAR_WUF:	Wake Up from stop mode Clear Flag
+	SET_BIT(huart->ICR, UART_CLEAR_TXFECF); //	* @arg UART_CLEAR_TXFECF: TXFIFO empty Clear Flag
+	
 }
 
 static void MB_Answer_Signal(uint8_t data)

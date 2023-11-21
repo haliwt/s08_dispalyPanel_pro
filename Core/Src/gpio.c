@@ -94,7 +94,7 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : INPUT PBPin =0*/
 
-  GPIO_InitStruct.Pin = FAN_KEY_Pin|PLASMA_KEY_Pin|DRY_KEY_Pin;
+  GPIO_InitStruct.Pin = BUG_KEY_Pin|PLASMA_KEY_Pin|DRY_KEY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;//GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);

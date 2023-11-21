@@ -301,24 +301,12 @@ void RunPocess_Command_Handler(void)
                 case 1:
 					
                     run_t.display_timer_timing_flag=0;
-                     switch(run_t.gFan){
-
-                     case 0:
-			     
-
-                    TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
+                
+					TM1639_Write_4Bit_Time(run_t.hours_two_decade_bit,run_t.hours_two_unit_bit, run_t.minutes_one_decade_bit,run_t.minutes_one_unit_bit,0) ; //timer is defau
                      SendData_Buzzer();
                      HAL_Delay(2);
 
-                     break;
-
-                     case 1:
-
-                        display_fan_speed_value(run_t.gFan_level);
-
-                    break;
-
-                     }
+                
 
                 break;
 
@@ -326,20 +314,11 @@ void RunPocess_Command_Handler(void)
 					
 					run_t.display_timer_timing_flag=0;
                     
-                    switch(run_t.gFan){
-                    
-                     case 0:
-
-					TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
+                    TM1639_Write_2bit_SetUp_TempData(run_t.set_temperature_decade_value,run_t.set_temperature_unit_value,0);
                     SendData_Buzzer();
                     HAL_Delay(2);
 
-                      break;
-                      case 1:
-
-                         display_fan_speed_value(run_t.gFan_level);
-                        break;
-                     }
+                     
 				break;
 
                 case 0:
@@ -365,21 +344,9 @@ void RunPocess_Command_Handler(void)
 					break;
 
 					case 3:
-                        switch(run_t.gFan){
-
-                         case 0:
+                       
 					       Display_SmgTiming_Value();
-                         break;
-
-                         case 1:
-
-                           display_fan_speed_value(run_t.gFan_level);
-
-
-                         break;
-
-
-                        }
+                   
 					    step_state=4;
 
 					break;
@@ -392,43 +359,22 @@ void RunPocess_Command_Handler(void)
 					break;
 
 					case 5:
-                    switch(run_t.gFan){
-
-                        case 0:
-                            if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+                  
+                         if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
                                 Display_TimeColon_Blink_Fun();
-                            }
-                        break;
+                         }
+                       
 
-                        case 1:
-
-                           display_fan_speed_value(run_t.gFan_level);
-                           
-
-                        break;
-                    }
-                    step_state=6;
+                      
+                       step_state=6;
                     break;
 
 					case 6:  //display slave of machine fan and ptc fault .
-						switch(run_t.gFan){
-
-                        case 0:
+					
 							if(run_t.slave_ptc_warning ==1 || run_t.slave_fan_warning ==1){
 								Display_Alternate_Slave_Fault_Item();
-									
 							}
-						break;
-
-                        case 1:
-
-                           display_fan_speed_value(run_t.gFan_level);
-                          
-
-                        break;
-						
-                    	}
-
+									
 					 step_state=0;
 					
 				   break;
@@ -441,7 +387,7 @@ void RunPocess_Command_Handler(void)
                 run_t.gRunCommand_label= POWER_OFF_PROCESS;
                 Power_Off_Fun();
             break;
-             }
+          }
 
 	
      break;
@@ -459,11 +405,11 @@ void RunPocess_Command_Handler(void)
             
 			 	if(run_t.gTimer_fan_continue < 61 && run_t.gTimer_fan_continue ==1 && run_t.fan_warning==0){
                    
-					LED_FAN_ON() ;
+					LED_BUG_ON() ;
 				 }
 				 else if(run_t.gTimer_fan_continue > 59){
                     run_t.gTimer_fan_continue =67;
-				   LED_FAN_OFF() ;
+				   LED_BUG_OFF() ;
 				   run_t.gFan_RunContinue =0;
 
 				 }
@@ -723,38 +669,7 @@ static void WorksTime_DonotDisplay_Fun(void)
 //	   }
 }
 
-static void Smg_DisplayFan_Level_Value_Fun(uint8_t fan_level)
-{
 
-    static uint8_t fan_max=0xff,fan_min=0xff;
-
-    if(fan_level ==fan_speed_max){
-    
-    if(fan_max != run_t.fan_key_max){
-       fan_max = run_t.fan_key_max;
-      SendData_Set_Command(FAN_LEVEL_MAX);
-
-     }
-   }
-   else{
-
-       if(fan_min != run_t.fan_key_min){
-          fan_min = run_t.fan_key_min;
-          SendData_Set_Command(FAN_LEVEL_MIN);
-   
-        }
-   }
-    
-    TM1639_Write_4Bit_Fan_Level(fan_level);
-    if(run_t.gTimer_display_fan_level > 2){
-        run_t.gTimer_display_fan_level=0;
-        run_t.gFan =0;
-        Display_GMT(run_t.timer_dispTime_hours,run_t.timer_dispTime_minutes);
-
-    }
- 
-
-}
 /****************************************************************
  * 
  * Function Name:

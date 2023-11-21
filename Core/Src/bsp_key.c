@@ -1,4 +1,4 @@
-#include "key.h"
+#include "bsp_key.h"
 #include "bsp.h"
 
 
@@ -12,7 +12,7 @@ key_types key_t;
 *
 *
 ***********************************************************/
-#if 0
+
 uint8_t KEY_Scan(void)
 {
   uint8_t  reval = 0;
@@ -133,7 +133,7 @@ uint8_t KEY_Scan(void)
 
 }
 
-#endif 
+
 /************************************************************************
 	*
 	*Function Name: void Process_Key_Handler(uint8_t keylabel)
@@ -214,38 +214,36 @@ void Process_Key_Handler(uint8_t keylabel)
         
         if(run_t.gPower_On ==RUN_POWER_ON){
 
-		if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+			if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
          switch(run_t.temp_set_timer_timing_flag){
 
-            case 0:
+              case 0:
                    
-			if(run_t.ai_model_flag ==AI_MODE){
-				run_t.ai_model_flag =NO_AI_MODE;
-				 SendData_Set_Command(AI_MODE_OFF);
-                 HAL_Delay(5);
-              
-				run_t.timer_timing_define_flag=timing_success;
-			     run_t.gTimer_Counter=0;
+					if(run_t.ai_model_flag ==AI_MODE){
+						run_t.ai_model_flag =NO_AI_MODE;
+						 SendData_Set_Command(AI_MODE_OFF);
+                         HAL_Delay(5);
+                      
+						run_t.timer_timing_define_flag=timing_success;
+					     run_t.gTimer_Counter=0;
 
-			}
-			else{
-				if(run_t.ai_model_flag ==NO_AI_MODE){
-					run_t.ai_model_flag =AI_MODE;
-					SendData_Set_Command(AI_MODE_ON);
-                    HAL_Delay(5);
-                    if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
-                    run_t.gDry= 1;
-                    run_t.gUltrasonic =1;
-                   
-                    run_t.gPlasma = 1;
+					}
+					else{
+						if(run_t.ai_model_flag ==NO_AI_MODE){
+							run_t.ai_model_flag =AI_MODE;
+							SendData_Set_Command(AI_MODE_ON);
+	                        HAL_Delay(5);
+	                         if(run_t.ptc_warning ==0){
+	                         run_t.gDry= 1;
 
-                    }
-                    
-                    run_t.manual_dry_turn_off=0;
-				    run_t.timer_timing_define_flag=timing_donot;
-			   }
+	                       }
+	                        run_t.gPlasma = 1;
+	                        
+	                        run_t.manual_dry_turn_off=0;
+						    run_t.timer_timing_define_flag=timing_donot;
+					   }
 
-			}
+					}
                 
                 run_t.keyvalue = 0xFF;
 			    keylabel=0xff;
@@ -265,32 +263,39 @@ void Process_Key_Handler(uint8_t keylabel)
                 
               
 		    }
-            else{
+             else{
 
 				run_t.ai_model_flag =AI_MODE;
 				run_t.ai_model_be_changed_flag =  NO_AI_TO_AI_MODE;
 		
-				SendData_Set_Command(AI_MODE_ON);
-           
+				SendData_Buzzer();
+                  HAL_Delay(5);
 
                   run_t.gDry=1;
                   run_t.gPlasma=1;
-				  run_t.gUltrasonic =1;
-				  
-				   run_t.timer_timing_define_flag=timing_donot;
+					run_t.timer_timing_define_flag=timing_donot;
 					
-				   run_t.timer_works_transform_flag =0; //at once display AI mode 
+					run_t.timer_works_transform_flag =0; //at once display AI mode 
 					
-				   run_t.timer_timing_define_ok = 0;
+					run_t.timer_timing_define_ok = 0;
 
 					run_t.temp_set_timer_timing_flag=0;
                
-                  }
+                  
+                 
+            
+                 SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On
+
+                 HAL_Delay(5);
+
+				}
 					
 		    	run_t.gTimer_Counter=0;
 
                 run_t.keyvalue = 0xFF;
 				keylabel=0xff;
+				//run_t.input_timer_timing_numbers_flag =0;
+				return;
 
 			break;
 
@@ -317,11 +322,11 @@ void Process_Key_Handler(uint8_t keylabel)
 				SendData_Set_Command(AI_MODE_ON);
               
                 run_t.timer_timing_define_flag=timing_donot;
-                 if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+                 if(run_t.ptc_warning ==0){
                  run_t.gDry= 1;
-                 run_t.gUltrasonic =1;
-                 run_t.gPlasma = 1;
-                }
+
+               }
+                run_t.gPlasma = 1;
      
 
 			}
@@ -737,28 +742,33 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
         if(run_t.gPower_On ==RUN_POWER_ON && BUG_KEY_VALUE() ==1){
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
-               if(run_t.ai_model_flag== NO_AI_MODE){
+               if(run_t.ai_model_flag== NO_AI_MODE ){
 
-                   if(run_t.gUltrasonic == 0){
-
-                        run_t.gUltrasonic =1;
-						LED_BUG_ON();
-				        SendData_Set_Command(ULTRASONIC_ON);
+             
+               {
+                   
+ 			
+ 					
+				
+                 
+            
 						
-				   }
-				   else{
-
-				     run_t.gUltrasonic =1;
-					 LED_BUG_OFF();
-				     SendData_Set_Command(ULTRASONIC_OFF);
-
-				   }
-          
-               }
-			 
-          	}
+			     }
                
-		}
+               
+
+              
+               }
+			   else{
+
+
+
+
+			   }
+				  
+				 
+			}
+		 }
 		  __HAL_GPIO_EXTI_CLEAR_RISING_IT(BUG_KEY_Pin);
      break;
 
@@ -774,13 +784,14 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			   	
 			       run_t.gPlasma = 0;
 				   SendData_Set_Command(PLASMA_OFF);
-			       LED_PLASMA_ON();
+			      PLASMA_LED_OnOff(1);
+			       
                 
 			   	}  
                 else{
                    run_t.gPlasma = 1;
 				   SendData_Set_Command(PLASMA_ON);
-				   LED_PLASMA_OFF();
+				   PLASMA_LED_OnOff(0);
                
 				}
 
@@ -807,15 +818,15 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			  if(run_t.gDry== 1){
 				    run_t.gDry =0;
 					SendData_Set_Command(DRY_OFF);
-			        LED_DRY_OFF();
                   
                     run_t.manual_dry_turn_off=1;
+					DRY_LED_OnOff(1);
                }
                else{
                     run_t.gDry =1;
 					run_t.manual_dry_turn_off=0;
 					SendData_Set_Command(DRY_ON);
-					LED_DRY_ON();
+					DRY_LED_OnOff(0);
                   
                  }  
 			   
@@ -839,7 +850,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
  
 }
 
-#if 0
 void Key_TheSecond_Scan(void)
 {
 	
@@ -873,7 +883,7 @@ void Key_TheSecond_Scan(void)
 	}
 
 }
-#endif 
+
 //������������
 //���ذ���ֵ
 //mode:0,��֧��������;1,֧��������;

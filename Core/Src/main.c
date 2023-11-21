@@ -123,12 +123,11 @@ int main(void)
 		  case 1:
 		  	       
 	         Decode_Handler();
-	        if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && FAN_KEY_VALUE()==KEY_UP\
+	        if(POWER_KEY_VALUE()  ==KEY_UP && DEC_KEY_VALUE()  ==KEY_UP && ADD_KEY_VALUE()==KEY_UP && MODEL_KEY_VALUE()==KEY_UP && BUG_KEY_VALUE()==KEY_UP\
 				   && PLASMA_KEY_VALUE() ==KEY_UP && DRY_KEY_VALUE() ==KEY_UP){
-	          //run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
-	          run_t.keyvalue= KEY_Normal_Scan(0);
+	               run_t.keyvalue= KEY_Normal_Scan(0);
 	         }
-	          Key_TheSecond_Scan();
+	 
 	          Process_Key_Handler(run_t.keyvalue);
 			 
 	          RunPocess_Command_Handler();
