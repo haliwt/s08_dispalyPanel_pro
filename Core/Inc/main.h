@@ -74,8 +74,8 @@ void Error_Handler(void);
 #define POWER_KEY_Pin 					        GPIO_PIN_7 //D3 ->
 #define POWER_KEY_GPIO_Port 			      	GPIOC
 
-#define BUG_KEY_Pin 					        GPIO_PIN_0
-#define FAN_KEY_GPIO_Port 				        GPIOB
+#define ULTRASONIC_KEY_Pin 					        GPIO_PIN_0
+#define ULTRASONIC_KEY_GPIO_Port 				      GPIOB
 
 #define PLASMA_KEY_Pin 					        GPIO_PIN_1
 #define PLASMA_KEY_GPIO_Port 			      GPIOB
@@ -86,6 +86,7 @@ void Error_Handler(void);
 #define AI_KEY_Pin 					          GPIO_PIN_10
 #define WIFI_KEY_GPIO_Port 				      GPIOB
 
+/****************KEN GPIO END********************/
 
 
 #define MODEL_KEY_Pin 					        	GPIO_PIN_10 //D2

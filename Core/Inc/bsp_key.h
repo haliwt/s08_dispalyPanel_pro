@@ -14,10 +14,10 @@
 #define ADD_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOA,ADD_KEY_Pin)
 
 
-#define BUG_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,BUG_KEY_Pin)
-#define PLASMA_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,PLASMA_KEY_Pin)
-#define DRY_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,DRY_KEY_Pin)
-#define AI_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,AI_KEY_Pin)
+#define ULTRASONIC_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOB,ULTRASONIC_KEY_Pin)
+#define PLASMA_KEY_VALUE()              	HAL_GPIO_ReadPin(GPIOB,PLASMA_KEY_Pin)
+#define DRY_KEY_VALUE()              		HAL_GPIO_ReadPin(GPIOB,DRY_KEY_Pin)
+#define AI_KEY_VALUE()              		HAL_GPIO_ReadPin(GPIOB,AI_KEY_Pin)
 
 
 

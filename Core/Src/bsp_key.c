@@ -12,7 +12,7 @@ key_types key_t;
 *
 *
 ***********************************************************/
-
+#if 0
 uint8_t KEY_Scan(void)
 {
   uint8_t  reval = 0;
@@ -133,7 +133,7 @@ uint8_t KEY_Scan(void)
 
 }
 
-
+#endif 
 /************************************************************************
 	*
 	*Function Name: void Process_Key_Handler(uint8_t keylabel)
@@ -736,39 +736,33 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 	 break;
 
 
-     case BUG_KEY_Pin :
+     case ULTRASONIC_KEY_Pin :
        
-        if(run_t.gPower_On ==RUN_POWER_ON && BUG_KEY_VALUE() ==1){
+        if(run_t.gPower_On ==RUN_POWER_ON && ULTRASONIC_KEY_VALUE() ==1){
                 if(run_t.fan_warning ==0 && run_t.ptc_warning == 0){ 
 
                if(run_t.ai_model_flag== NO_AI_MODE ){
 
-             
-               {
-                   
- 			
- 					
-				
-                 
-            
-						
-			     }
-               
-               
+                   if(run_t.gUltrasonic ==1){
+                       
+				     run_t.gUltrasonic =0;
+					 LED_BUG_OFF();
+				      SendData_Set_Command(ULTRASONIC_OFF);
 
-              
+
+				   }
+                   else{
+				   	run_t.gUltrasonic =1;
+					LED_BUG_ON();
+				    SendData_Set_Command(ULTRASONIC_ON);
+
+				   }
                }
-			   else{
-
-
-
-
-			   }
 				  
 				 
 			}
 		 }
-		  __HAL_GPIO_EXTI_CLEAR_RISING_IT(BUG_KEY_Pin);
+		  __HAL_GPIO_EXTI_CLEAR_RISING_IT(ULTRASONIC_KEY_Pin);
      break;
 
 	 case PLASMA_KEY_Pin:
@@ -809,7 +803,7 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 	 case DRY_KEY_Pin:
       if(run_t.gPower_On ==RUN_POWER_ON){
-		      if(run_t.ptc_warning ==0){
+		      if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
 
               switch(run_t.ai_model_flag){ //WT.EDIT 2023.09.12
 
