@@ -106,11 +106,7 @@ void Panel_Led_OnOff_Function(void)
     if(run_t.gDry==1){
 		 
 	     DRY_LED_OnOff(1);
-         if(run_t.ai_model_be_changed_flag == NO_AI_TO_AI_MODE){
-            run_t.ai_model_be_changed_flag++;
-          	SendData_Set_Command(DRY_ON_NO_BUZZER); //PTC turn On
-                 
-        }
+        
       
 
      }

@@ -203,6 +203,7 @@ void Power_On_Fun(void)
 		run_t.gDry =1;
 		run_t.gUltrasonic =1;
 		run_t.ai_model_flag =AI_MODE;
+		
 
 	 run_t.gPower_On=RUN_POWER_ON;
 	 Power_ON_Led();

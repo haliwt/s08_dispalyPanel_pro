@@ -42,7 +42,7 @@ static void Display_SmgTiming_Value(void)
    static uint8_t timer_display_flag, alternate_flag;
 	switch(run_t.timer_timing_define_flag){
 
-	case timing_success: //0x01
+	case timing_timer_model: //0x01
 
 	   switch(run_t.timer_timing_define_ok){
 
@@ -80,30 +80,26 @@ static void Display_SmgTiming_Value(void)
 			
 		     run_t.timer_works_transform_flag=0;
 			
-             run_t.ai_model_be_changed_flag =  NO_AI_TO_AI_MODE;
+       
 
 			 /******************************************************/
 
-			  if(run_t.gDry == 0)
-
-			     run_t.gDry = 1;
+			  if(run_t.gDry == 0)run_t.gDry = 1;
 
                 SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On --this is error code 2023.10.10
 
                 HAL_Delay(1);
+
+				
+				run_t.ai_model_flag =AI_MODE; 
+			   run_t.gDry=1;
+			   run_t.gPlasma=1;
+			   run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
+			   run_t.timer_timing_define_ok=0xff; //WT.EDIT.2023.09.21 has a little bug.
+                run_t.timer_timing_define_flag=timing_works_model; 
+				
 			  }
 
-		
-             run_t.timer_timing_define_flag=timing_donot; 
-
-             run_t.ai_model_flag =AI_MODE; 
-             run_t.gDry=1;
-             run_t.gPlasma=1;
-			 run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
-			 run_t.timer_timing_define_ok=0xff; //WT.EDIT.2023.09.21 has a little bug.
-
-            
-         
 		    }
 
 		break;
@@ -200,7 +196,7 @@ static void Display_SmgTiming_Value(void)
 	break;
 
 
-	case timing_donot:
+	case timing_works_model:
 		
         Timer_Timing_Donot_Display();
 		
@@ -231,7 +227,6 @@ static void DisplayPanel_DHT11_Value(void)
      
 	}
 }
-
 /******************************************************************************
 	*
 	*Function Name:void RunPocess_Command_Handler(void)
@@ -534,9 +529,7 @@ static void Display_Works_Time_Fun(void)
 			        }
 
 				 }
-			    
-
-               }
+				}
 			   else{
 
 			      alternate_flag=2;
@@ -625,7 +618,7 @@ static void Timer_Timing_Donot_Display(void)
 static void WorksTime_DonotDisplay_Fun(void)
 {
 //send to APP works times every minute onece
-   if(run_t.gTimes_time_seconds > 59 && run_t.timer_timing_define_flag ==timing_success && run_t.temp_set_timer_timing_flag ==0){
+   if(run_t.gTimes_time_seconds > 59 && run_t.timer_timing_define_flag ==timing_timer_model && run_t.temp_set_timer_timing_flag ==0){
 		   run_t.gTimes_time_seconds=0;
 		 
 		   run_t.works_dispTime_minutes++; //1 minute 

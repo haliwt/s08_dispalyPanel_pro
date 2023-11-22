@@ -70,23 +70,23 @@ void Error_Handler(void);
 #define TM1639_SCLK_Pin GPIO_PIN_6
 #define TM1639_SCLK_GPIO_Port GPIOA
 
+
+
 //key input GPIO
-#define POWER_KEY_Pin 					        GPIO_PIN_7 //D3 ->
-#define POWER_KEY_GPIO_Port 			      	GPIOC
+#define POWER_KEY_Pin 					       GPIO_PIN_7 //D3 ->
+#define POWER_KEY_GPIO_Port 			       GPIOC
 
-#define ULTRASONIC_KEY_Pin 					        GPIO_PIN_0
-#define ULTRASONIC_KEY_GPIO_Port 				      GPIOB
+#define ULTRASONIC_KEY_Pin 					   GPIO_PIN_0
+#define ULTRASONIC_KEY_GPIO_Port 			   GPIOB
 
-#define PLASMA_KEY_Pin 					        GPIO_PIN_1
-#define PLASMA_KEY_GPIO_Port 			      GPIOB
+#define PLASMA_KEY_Pin 					       GPIO_PIN_1
+#define PLASMA_KEY_GPIO_Port 			       GPIOB
 
-#define DRY_KEY_Pin 					          GPIO_PIN_2
+#define DRY_KEY_Pin 					      GPIO_PIN_2
 #define DRY_KEY_GPIO_Port 				      GPIOB
 
 #define AI_KEY_Pin 					          GPIO_PIN_10
 #define WIFI_KEY_GPIO_Port 				      GPIOB
-
-/****************KEN GPIO END********************/
 
 
 #define MODEL_KEY_Pin 					        	GPIO_PIN_10 //D2
@@ -97,6 +97,9 @@ void Error_Handler(void);
 
 #define ADD_KEY_Pin 					          	GPIO_PIN_12
 #define ADD_KEY_GPIO_Port 				      		GPIOA
+
+/****************KEN GPIO END********************/
+
 
 #define TOUCH_KEY_IC_1_Pin                  		GPIO_PIN_13
 #define TOUCK_KEY_IC_1_GPIO_Port              		GPIOC

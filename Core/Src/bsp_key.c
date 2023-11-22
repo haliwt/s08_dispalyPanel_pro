@@ -147,9 +147,7 @@ void Process_Key_Handler(uint8_t keylabel)
  
    static uint8_t power_adjust_on,power_adjust_off;
 
-  
-
-    switch(keylabel){
+  	switch(keylabel){
 
       case POWER_KEY_ID:
 	 
@@ -191,11 +189,11 @@ void Process_Key_Handler(uint8_t keylabel)
 		  if(run_t.ptc_warning==0 && run_t.fan_warning ==0){
 		  	  
 
-		         // run_t.ai_model_flag =NO_AI_MODE;
+		        
 				  run_t.temp_set_timer_timing_flag= TIMER_TIMING;
 			      run_t.gTimer_key_timing=0;
 				
-			    //  run_t.input_timer_timing_numbers_flag =1;
+
                   run_t.timer_timing_define_ok=0; //WT.EDIT 2023.09.15
                   run_t.judge_hours_if_zero =0;
                   run_t.judge_minutes_if_zero =0;
@@ -214,7 +212,7 @@ void Process_Key_Handler(uint8_t keylabel)
         
         if(run_t.gPower_On ==RUN_POWER_ON){
 
-			if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
+		if(run_t.ptc_warning ==0 && run_t.fan_warning ==0){
          switch(run_t.temp_set_timer_timing_flag){
 
               case 0:
@@ -222,17 +220,19 @@ void Process_Key_Handler(uint8_t keylabel)
 					if(run_t.ai_model_flag ==AI_MODE){
 						run_t.ai_model_flag =NO_AI_MODE;
 						 SendData_Set_Command(AI_MODE_OFF);
-                         HAL_Delay(5);
-                      
-						run_t.timer_timing_define_flag=timing_success;
-					     run_t.gTimer_Counter=0;
+                         //HAL_Delay(5);
+                        
+					run_t.timer_timing_define_flag=timing_timer_model;
+					run_t.gTimer_Counter=0;
+				
 
 					}
 					else{
 						if(run_t.ai_model_flag ==NO_AI_MODE){
 							run_t.ai_model_flag =AI_MODE;
 							SendData_Set_Command(AI_MODE_ON);
-	                        HAL_Delay(5);
+	                       // HAL_Delay(5);
+						 
 	                         if(run_t.ptc_warning ==0){
 	                         run_t.gDry= 1;
 
@@ -240,23 +240,22 @@ void Process_Key_Handler(uint8_t keylabel)
 	                        run_t.gPlasma = 1;
 	                        
 	                        run_t.manual_dry_turn_off=0;
-						    run_t.timer_timing_define_flag=timing_donot;
+						    run_t.timer_timing_define_flag=timing_works_model;
 					   }
 
 					}
                 
-           run_t.keyvalue = 0xFF;
-			    keylabel=0xff;
+			
 			
 			break;
 
 			case 1://set timer timing numbers 
 				
-		    //if(run_t.timer_dispTime_minutes >0 || run_t.timer_dispTime_hours > 0){
+		
 		    if(run_t.judge_hours_if_zero >0 || run_t.judge_minutes_if_zero >20){
 			     SendData_Buzzer();
-                 HAL_Delay(5);
-				 run_t.timer_timing_define_flag=timing_success;
+                 HAL_Delay(1);
+				 run_t.timer_timing_define_flag=timing_timer_model;
 				 run_t.timer_timing_define_ok = 1;
 				 run_t.temp_set_timer_timing_flag=0;
                  run_t.ai_model_flag =NO_AI_MODE;
@@ -266,14 +265,14 @@ void Process_Key_Handler(uint8_t keylabel)
              else{
 
 				run_t.ai_model_flag =AI_MODE;
-				run_t.ai_model_be_changed_flag =  NO_AI_TO_AI_MODE;
+			
 		
 				SendData_Buzzer();
-                  HAL_Delay(5);
+                  HAL_Delay(1);
 
                   run_t.gDry=1;
                   run_t.gPlasma=1;
-					run_t.timer_timing_define_flag=timing_donot;
+					run_t.timer_timing_define_flag=timing_works_model;
 					
 					run_t.timer_works_transform_flag =0; //at once display AI mode 
 					
@@ -281,20 +280,13 @@ void Process_Key_Handler(uint8_t keylabel)
 
 					run_t.temp_set_timer_timing_flag=0;
                
-                  
-                 
-            
-                 SendData_Set_Command(PLASM_ON_NO_BUZZER); //PTC turn On
-
-                 HAL_Delay(5);
+                
 
 				}
 					
 		    	run_t.gTimer_Counter=0;
 
-        run_t.keyvalue = 0xFF;
-				keylabel=0xff;
-				//run_t.input_timer_timing_numbers_flag =0;
+				
 			
 
 			break;
@@ -303,6 +295,14 @@ void Process_Key_Handler(uint8_t keylabel)
 
 		   }
 		}
+	if(run_t.gPower_On ==RUN_POWER_ON){
+	   if(run_t.ai_model_flag ==NO_AI_MODE){
+			LED_AI_OFF();
+	   }
+	   else{
+			LED_AI_ON();
+	   }
+	  }
 	   run_t.keyvalue = 0xFF;
 
 	  break;
@@ -313,7 +313,7 @@ void Process_Key_Handler(uint8_t keylabel)
 			run_t.ai_model_flag =NO_AI_MODE;
 			 SendData_Set_Command(AI_MODE_OFF);
          
-             run_t.timer_timing_define_flag=timing_success;
+             run_t.timer_timing_define_flag=timing_timer_model;
               run_t.gTimer_Counter=0;
 
 			}
@@ -321,7 +321,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				run_t.ai_model_flag =AI_MODE;
 				SendData_Set_Command(AI_MODE_ON);
               
-                run_t.timer_timing_define_flag=timing_donot;
+                run_t.timer_timing_define_flag=timing_works_model;
                  if(run_t.ptc_warning ==0){
                  run_t.gDry= 1;
 
@@ -457,8 +457,14 @@ void Set_Timing_Temperature_Number_Value(void)
 
 }
 
-/**********************************************************
-***********************************************************/
+/*********************************************************************
+	*
+	*Function Name:void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
+	*Function : GPIO inetrrupt backcall function
+	*Input Ref: interrupt GPIO special gpio
+	*Return Ref: NO
+	*
+**********************************************************************/
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
  
@@ -475,23 +481,18 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 			
 
 		if(run_t.gPower_On ==RUN_POWER_OFF){
-				//run_t.keyvalue  = POWER_KEY_ID;
-				//run_t.gPower_On = RUN_POWER_ON;
-		        run_t.gRunCommand_label =RUN_POWER_ON;
+				
+		    run_t.gRunCommand_label =RUN_POWER_ON;
 		        
-				
-		   }
-           else{
-		   	  //run_t.gPower_On =RUN_POWER_OFF;
-		     // run_t.keyvalue  = POWER_KEY_ID;
-		      run_t.gRunCommand_label =RUN_POWER_OFF;
-			
-		   }
-				
-          
-       
 		}
-          __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
+        else{
+		   	
+		  run_t.gRunCommand_label =RUN_POWER_OFF;
+			
+		}
+				
+       }
+       __HAL_GPIO_EXTI_CLEAR_RISING_IT(POWER_KEY_Pin);
     
      break;
 
@@ -882,7 +883,7 @@ void Key_TheSecond_Scan(void)
 //mode:0,��֧��������;1,֧��������;
 //0��û���κΰ�������
 //1��WKUP���� WK_UP
-//ע��˺�������Ӧ���ȼ�,KEY0>KEY1>KEY2>WK_UP!!
+//ע��˺�������Ӧ���ȼￄ1�7,KEY0>KEY1>KEY2>WK_UP!!
 uint8_t KEY_Normal_Scan(uint8_t mode)
 {
     static uint8_t key_up=1;     //�����ɿ���־

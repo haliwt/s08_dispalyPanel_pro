@@ -34,8 +34,8 @@ typedef enum WIFI_STATE_T{
 
 typedef enum TIMING_T{
 
-   timing_donot,
-   timing_success ,
+   timing_works_model,
+   timing_timer_model ,
    timing_power_off,
    timing_null
 }timing_t;
@@ -124,13 +124,7 @@ typedef struct __RUN{
    uint8_t gTimer_mode_key_counter;
    //fan ref
   
-  
-
- 
-  
-   uint8_t ai_model_be_changed_flag;
-
-   //dry ref 
+  //dry ref 
    uint8_t  dry_key;
    uint8_t  manual_dry_turn_off;
 

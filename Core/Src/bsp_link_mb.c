@@ -52,65 +52,61 @@ uint8_t Power_ReadParam_OnOff(uint8_t reg)
 			if (reg == 1 )
 			{
                if(usart_t.response_power_on ==1)
-				return 1;		/* ���յ�Ӧ�� */
+				break;		/* ���յ�Ӧ�� */
 			}
 			else{
 				if(usart_t.response_power_off ==1)
-			    return 1;	/* ���յ�Ӧ�� */
+			    break;;	/* ���յ�Ӧ�� */
 
 			}
 		}
 	
 		
-	if (reg == 1 )
-		{
-      if(usart_t.response_power_on ==1)
-			    return 1;		/* ���յ�Ӧ�� */
-		  else{
-		   	  if(j==0){
-			  	  j++;
-		      	ADD_NUM++;
+		if (reg == 1 ){ //power on 
+			if(usart_t.response_power_on ==1)break;		/* mainboard receive power on command signal */
+			else{
+			if(j==0){
+					j++;
+					ADD_NUM++;
 
-		   	   }
-					 else 
-						 return 0;
-			}
-			   
-	}
-	else{
+				}
+				else 
+				  return 0;
+			  }
+			
+		}
+		else{ //power off
 			if(usart_t.response_power_off ==1)
-			return 1;		/* ���յ�Ӧ�� */
+			return 1;	/* mainboard receive power off command signal */
 			else{
 				if(j==0){
 			  	j++;
 		      ADD_NUM++;
 
 		   	  }
-			    else 
-						return 0;
+			  else 
+			  	break;
 
 			}
 
 		}
-	
 	}
-	if (reg == 1 )
+	
+	if (reg == 1 ) //power on
 	{
        if(usart_t.response_power_on ==1)
 		return 1 ;/* ���յ�Ӧ�� */
 	   else
 	   	return 0;
 	}
-	else{
+	else{ //power off
 		
 		if(usart_t.response_power_off ==1)
 			return 1;
         else 
 			return 0;
 	}
+
 }
-
-
-
 
 
