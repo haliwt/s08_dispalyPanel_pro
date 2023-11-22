@@ -94,6 +94,7 @@ static void Display_SmgTiming_Value(void)
 				run_t.ai_model_flag =AI_MODE; 
 			   run_t.gDry=1;
 			   run_t.gPlasma=1;
+			   run_t.gUltrasonic =1;           //WT.EDIT 20230.11.22
 			   run_t.set_temperature_flag=0;  //WT.EDIT 20230.09.23
 			   run_t.timer_timing_define_ok=0xff; //WT.EDIT.2023.09.21 has a little bug.
                 run_t.timer_timing_define_flag=timing_works_model; 

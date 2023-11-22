@@ -233,11 +233,14 @@ void Process_Key_Handler(uint8_t keylabel)
 							SendData_Set_Command(AI_MODE_ON);
 	                       // HAL_Delay(5);
 						 
-	                         if(run_t.ptc_warning ==0){
+	                       if(run_t.ptc_warning ==0 && run_t.fan_warning==0){
 	                         run_t.gDry= 1;
+							 run_t.gUltrasonic =1; //WT.EDIT.2023.11.22
 
-	                       }
+	                       	}
 	                        run_t.gPlasma = 1;
+
+	                       	
 	                        
 	                        run_t.manual_dry_turn_off=0;
 						    run_t.timer_timing_define_flag=timing_works_model;
@@ -272,7 +275,9 @@ void Process_Key_Handler(uint8_t keylabel)
 
                   run_t.gDry=1;
                   run_t.gPlasma=1;
-					run_t.timer_timing_define_flag=timing_works_model;
+				  run_t.gUltrasonic =1; //WT.EDIT.2023.11.22
+				  
+				  run_t.timer_timing_define_flag=timing_works_model;
 					
 					run_t.timer_works_transform_flag =0; //at once display AI mode 
 					
